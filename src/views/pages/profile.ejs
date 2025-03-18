@@ -16,8 +16,10 @@
     </div>
   </div>
 
-  <div>
-    <p>Token: <%= token %></p>
+  <div class="flex flex-col m-auto gap-2 p-8 sm:flex-row sm:items-center sm:gap-6 sm:py-4 bg-fuchsia-100 w-md rounded-md">
+    <p>Token JWT: <%= token.slice(0, 37) %>...</p>
   </div>
+
+
 
   <%- include('../partials/footer.ejs'); -%>
