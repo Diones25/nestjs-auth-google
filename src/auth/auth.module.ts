@@ -3,9 +3,16 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: 'google' })],
+  imports: [
+    PassportModule.register({ defaultStrategy: 'google' }),
+    JwtModule.register({
+      secret: "89bc3cf38c298a53667c80031696b3520cc278a2",
+      signOptions: { expiresIn: '1d' }
+    })
+  ],
   providers: [GoogleStrategy, AuthService],
   controllers: [AuthController]
 })
