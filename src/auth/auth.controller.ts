@@ -25,13 +25,19 @@ export class AuthController {
 
   @Get('profile')
   getProfile(@Req() req, @Res() res: Response) {
+    const token = req.query.token;
+
+    if (!token) {
+      return res.redirect('/auth/google');
+    }
+
     // Verifica se o usuário está autenticado
     if(!req.session.user) {
       return res.redirect('/auth/google'); // Redireciona para a página de login se não estiver autenticado	
     }
 
     // Renderiza a página EJS com os dados do usuário
-    res.render('pages/profile', { user: req.session.user });
+    res.render('pages/profile', { token, user: req.session.user });
   }
 
   @Get('logout')
