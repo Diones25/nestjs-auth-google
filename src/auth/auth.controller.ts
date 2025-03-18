@@ -17,4 +17,14 @@ export class AuthController {
     req.session.user = req.user;
     return this.authService.googleLogin(req);
   }
+
+  @Get('profile')
+  getProfile(@Req() req) {
+    // Retorna os dados do usuário armazenados na sessão
+    if(req.session.user) {
+      return req.session.user;
+    }
+
+    return 'Nenhuma sessão encontrada';
+  }
 }
