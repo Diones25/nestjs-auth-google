@@ -6,6 +6,6 @@ export class AppController{
   
   @Get()
   getHome(@Res() res: Response) {
-    res.render('index'); // Renderiza a página Home
+    res.render('pages/index'); // Renderiza a página Home
   }
 }

@@ -29,7 +29,7 @@ export class AuthController {
     }
 
     // Renderiza a página EJS com os dados do usuário
-    res.render('profile', { user: req.session.user });
+    res.render('pages/profile', { user: req.session.user });
   }
 
   @Get('logout')
