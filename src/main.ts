@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(
     session({
@@ -16,6 +18,11 @@ async function bootstrap() {
       }
     }),
   );
+
+  // Configuração do EJS
+  app.useStaticAssets(join(__dirname, '..', 'public')); // Diretorio dos arquivos estáticos
+  app.setBaseViewsDir(join(__dirname, '..', 'views')); // Define o diretório das views
+  app.setViewEngine('ejs'); // Define o mecanismo de template como EJS
 
   await app.listen(process.env.PORT ?? 3000);
 }
