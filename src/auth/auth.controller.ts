@@ -31,7 +31,7 @@ export class AuthController {
     res.render('profile', { user: req.session.user });
   }
 
-  @Post('logout')
+  @Get('logout')
   logout(@Req() req, @Res() res) {
     // Destroy a sessão
     req.session.destroy((err) => {
