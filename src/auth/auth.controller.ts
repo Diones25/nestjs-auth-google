@@ -17,7 +17,7 @@ export class AuthController {
     req.session.user = req.user;
 
     // Redireciona para a página de perfil
-    res.redirect('/profile');
+    res.redirect('/auth/profile');
   }
 
   @Get('profile')
