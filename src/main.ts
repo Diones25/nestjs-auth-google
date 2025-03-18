@@ -21,7 +21,7 @@ async function bootstrap() {
 
   // Configuração do EJS
   app.useStaticAssets(join(__dirname, '..', 'public')); // Diretorio dos arquivos estáticos
-  app.setBaseViewsDir(join(__dirname, '..', 'views')); // Define o diretório das views
+  app.setBaseViewsDir(join(__dirname, '..', '/src/views')); // Define o diretório das views
   app.setViewEngine('ejs'); // Define o mecanismo de template como EJS
 
   await app.listen(process.env.PORT ?? 3000);
