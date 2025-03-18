@@ -13,6 +13,8 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req) {
+    // Armazena os dados do usuário na sessão
+    req.session.user = req.user;
     return this.authService.googleLogin(req);
   }
 }
