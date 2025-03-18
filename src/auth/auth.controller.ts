@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +13,7 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Req() req, @Res() res) {
+  async googleAuthRedirect(@Req() req, @Res() res: Response) {
     // Armazena os dados do usuário na sessão
     req.session.user = req.user;
 
@@ -21,10 +22,10 @@ export class AuthController {
   }
 
   @Get('profile')
-  getProfile(@Req() req, @Res() res) {
+  getProfile(@Req() req, @Res() res: Response) {
     // Verifica se o usuário está autenticado
     if(!req.session.user) {
-      return req.redirect('/auth/google'); // Redireciona para a página de login se não estiver autenticado	
+      return res.redirect('/auth/google'); // Redireciona para a página de login se não estiver autenticado	
     }
 
     // Renderiza a página EJS com os dados do usuário
@@ -32,7 +33,7 @@ export class AuthController {
   }
 
   @Get('logout')
-  logout(@Req() req, @Res() res) {
+  logout(@Req() req, @Res() res: Response) {
     // Destroy a sessão
     req.session.destroy((err) => {
       if (err) {
