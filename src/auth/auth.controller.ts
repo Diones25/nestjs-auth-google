@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -12,30 +12,33 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Req() req) {
+  async googleAuthRedirect(@Req() req, @Res() res) {
     // Armazena os dados do usuário na sessão
     req.session.user = req.user;
-    return this.authService.googleLogin(req);
+
+    // Redireciona para a página de perfil
+    res.redirect('/profile');
   }
 
   @Get('profile')
-  getProfile(@Req() req) {
-    // Retorna os dados do usuário armazenados na sessão
-    if(req.session.user) {
-      return req.session.user;
+  getProfile(@Req() req, @Res() res) {
+    // Verifica se o usuário está autenticado
+    if(!req.session.user) {
+      return req.redirect('/auth/google'); // Redireciona para a página de login se não estiver autenticado	
     }
 
-    return 'Nenhuma sessão encontrada';
+    // Renderiza a página EJS com os dados do usuário
+    res.render('profile', { user: req.session.user });
   }
 
   @Post('logout')
-  logout(@Req() req) {
+  logout(@Req() req, @Res() res) {
     // Destroy a sessão
     req.session.destroy((err) => {
       if (err) {
-        return "Erro ao fazer o logout"
+        return res.send('Erro ao fazer o logout');
       }
-      return "Logout feito com sucesso";
+      res.redirect('/'); // Redireciona para a página inicial após o logout
     });
   }
 }
