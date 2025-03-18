@@ -17,8 +17,10 @@ export class AuthController {
     // Armazena os dados do usuário na sessão
     req.session.user = req.user;
 
-    // Redireciona para a página de perfil
-    res.redirect('/auth/profile');
+    const result = await this.authService.googleLogin(req);
+
+    // Redireciona para a página de perfil com o token JWT
+    res.redirect(`/auth/profile?token=${result.token}`);
   }
 
   @Get('profile')

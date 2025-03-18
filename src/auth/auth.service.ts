@@ -10,7 +10,7 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  async googleLogin(req) {
+  async googleLogin(req): Promise<any> {
     if (!req.user) {
       return 'Nenhum usuário do Google'
     }
