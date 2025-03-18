@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -26,5 +26,16 @@ export class AuthController {
     }
 
     return 'Nenhuma sessão encontrada';
+  }
+
+  @Post('logout')
+  logout(@Req() req) {
+    // Destroy a sessão
+    req.session.destroy((err) => {
+      if (err) {
+        return "Erro ao fazer o logout"
+      }
+      return "Logout feito com sucesso";
+    });
   }
 }
