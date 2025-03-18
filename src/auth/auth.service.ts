@@ -10,14 +10,18 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  googleLogin(req) {
+  async googleLogin(req) {
     if (!req.user) {
       return 'Nenhum usuário do Google'
     }
 
+    // Gera o Token JWT
+    const token = await this.generateJwtToken(req.user);
+
     return {
       message: 'Informações do usuário do Google',
-      user: req.user
+      user: req.user,
+      token
     }
   }
 }
