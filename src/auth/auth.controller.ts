@@ -6,6 +6,15 @@ import { Response } from 'express';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
+
+  @Get('protected')
+  @UseGuards(AuthGuard('jwt')) // Protege a rota com JWT
+  getProtectedRoute(@Req() req) {
+    return {
+      message: 'You have accessed a protected route',
+      user: req.user, // Dados do usuário extraídos do token JWT
+    };
+  }
   
   @Get('google')
   @UseGuards(AuthGuard('google'))
